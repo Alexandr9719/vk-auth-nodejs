@@ -10,6 +10,8 @@ VK Auth NodeJS является тестовым заданием.
 npm install или yarn install
 ```
 
+Переименовать файл .env.example в .env и добавить свои ключи приложения VK.
+
 ## Использование
 
 ```bash
