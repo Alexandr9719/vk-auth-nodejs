@@ -1,0 +1,61 @@
+<html>
+
+<head>
+  <title>Express</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script>
+
+</script>
+<body>
+  <div id="root">
+  </div>
+</body>
+
+<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<script>
+  function checkCookie() {
+    console.log(Cookies.get('vk_access_token'));
+    console.log($.get());
+    if (Cookies.get('vk_access_token')) {
+      $.get("/users", (data, status) => {
+        console.log(`Data: ${JSON.stringify(data.response.items)}`);
+        console.log(`Status: ${status}`);
+        data = JSON.parse(JSON.stringify(data.response.items));
+        console.log(JSON.stringify(data));
+        data.forEach(element => {
+          $("#root").append(`<div class="container">
+                              <div class="row">
+                                <div class="col">
+                                  <div class="col align-self-right">
+                                      <div class="card" style="width: 18rem;">
+                                        <img src="${element.photo_200_orig}" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                          <h5 class="card-title">${element.first_name + ` ` + element.last_name}</h5>
+                                          <p class="card-text">${element.city ? element.city.title : "Город не указан"}</p>
+                                          <a href="https://vk.com/id${element.id}" class="btn btn-primary">Перейти на страницу</a>
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>`);
+        });
+      });
+    } else {
+      $("#root").append("<button type=\"button\" class=\"btn btn-outline-primary btn-auth\">Войти</button>");
+      $(".btn-auth").click(()=>{
+        $(location).attr("href", `${location.href}login`);
+      });
+    }
+  }
+  checkCookie();
+</script>
+
+</html>
